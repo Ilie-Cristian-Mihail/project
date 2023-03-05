@@ -1,0 +1,119 @@
+<?php
+session_start();
+include('dbcon.php');
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+function sendemail_verify($name,$email,$verify_token)
+{
+    
+    $mail = new PHPMailer(true);
+    //Server settings
+    // $mail->SMTPDebug = 1;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'mail.webook.ro';                     //Set the SMTP server to send through
+    $mail->Username   = 'noreply@webook.ro';                     //SMTP username
+    $mail->Password   = 'BMWfan123!';                               //SMTP password
+
+    $mail->SMTPSecure = "ssl";            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('noreply@webook.ro', $name);
+    $mail->addAddress($email);     //Add a recipient
+    
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Email verification from Webook';
+    $email_template = "
+    <h2>You have registered with Webook</h2>
+    <h4>Verify your email address to Login with the below given link</h5>
+    <br/><br/>
+    <a href='https://webook.ro/verify-email.php?token=$verify_token'> Click here! </a>
+    ";
+    $mail->Body    = $email_template;
+    $mail->send();
+   // echo 'Message has been sent';
+   
+    
+}
+
+function sendemail_welcome($name,$email)
+{
+    
+    $mail = new PHPMailer(true);
+    //Server settings
+    // $mail->SMTPDebug = 1;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'mail.webook.ro';                     //Set the SMTP server to send through
+    $mail->Username   = 'noreply@webook.ro';                     //SMTP username
+    $mail->Password   = 'BMWfan123!';                               //SMTP password
+
+    $mail->SMTPSecure = "ssl";            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('noreply@webook.ro', $name);
+    $mail->addAddress($email);     //Add a recipient
+    
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Welcome to WEBOOK!';
+    $email_template = file_get_contents('email.html');
+    $mail->Body    = $email_template;
+    $mail->send();
+   // echo 'Message has been sent';
+   
+    
+}
+
+if(isset($_POST['register_btn']))
+{
+    if ($_POST["password"] === $_POST["confirm_password"]) {
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $verify_token = md5(rand());
+
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Check if the email allready exists in the database or not
+        $check_email_query = "SELECT email FROM users WHERE email='$email' LIMIT 1";
+        $check_email_query_run = mysqli_query($con, $check_email_query);
+
+        if(mysqli_num_rows($check_email_query_run) > 0)
+        {
+            $_SESSION['status'] = "Email ID already exists";
+            header("Location: register.php");
+        }
+        else
+        {
+            // Insert User / registered user DATA
+            $query = "INSERT INTO users (name,phone,email,password,verify_token) VALUES ('$name','$phone','$email','$hashed_password','$verify_token')";
+            $query_run = mysqli_query($con, $query);
+
+            if($query_run)
+            {
+                sendemail_verify("$name","$email","$verify_token");
+                sendemail_welcome("$name","$email");
+                $_SESSION['status'] = "Registration Succesfull! Please verify your email Address.";
+                header("Location: register.php");
+            }
+
+        }
+     }
+     else {
+        $_SESSION['status'] = "Passwords did not match.";
+        header("Location: register.php");
+     }
+}
+
+?>

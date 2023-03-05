@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #2196f3;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0d8beb;
+  }
+  
+  .weather-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .weather-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .weather-info img {
+    width: 100px;
+    margin: 20px auto;
+  }
+  
+  .weather-info p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .weather-info span {
+    font-weight: bold;
+  }
+ /* Style the select element */
+.select-box {
+  width: 200px;
+  height: 38px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 16px;
+  padding: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23676767' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+/* Style the dropdown arrow */
+.select-box::-ms-expand {
+  display: none;
+}
+
+/* Style the dropdown */
+.select-box option {
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+  border: none;
+  border-radius: 0;
+  padding: 8px;
+}
+
+/* Style the selected option */
+.select-box option:checked {
+  background-color: #007bff;
+  color: #fff;
+}

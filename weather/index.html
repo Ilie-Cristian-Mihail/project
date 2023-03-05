@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#but').click(function(e) {
+          e.preventDefault(); // prevent the form from submitting
+          var city = $('.select-box').val(); // get the selected city
+          $.ajax({
+            url: 'code.php',
+            type: 'POST',
+            data: { city: city, submit: true },
+            success: function(response) {
+              $('#cityname').text(city); // set the city name in the heading
+              $('#temp span').text(response.temperature + "°C"); // set the temperature with units
+              $('#hum span').text(response.humidity + "%"); // set the humidity with units
+              $('#wind span').text(response.windSpeed + "m/s"); // set the wind speed with units
+            }
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather App</h1>
+      <div class="search-box">
+        <form action="code.php">
+          <select class="select-box" name="city">
+            <option value="default">-Select a city-</option>
+            <option value="Bucharest">Bucharest</option>
+            <option value="Dubai">Dubai</option>
+            <option value="London">London</option>
+            <option value="New York">New York</option>
+          </select>
+          <button id="but" name="submit">Search</button>
+        </form>
+      </div>
+      <div class="weather-info">
+        <h2 id="cityname">City </h2>
+        <img src="image.png" alt="Weather Icon">
+        <p id="temp">Temperature: <span></span></p>
+        <p id="hum">Humidity: <span></span></p>
+        <p id="wind">Wind Speed: <span></span></p>
+      </div>
+    </div>
+    
+  </body>
+</html>
+
+
+
