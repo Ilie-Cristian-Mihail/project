@@ -50,15 +50,15 @@ function sendemail_welcome($name,$email)
     //Server settings
     // $mail->SMTPDebug = 1;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'mail.webook.ro';                     //Set the SMTP server to send through
-    $mail->Username   = 'noreply@webook.ro';                     //SMTP username
-    $mail->Password   = 'BMWfan123!';                               //SMTP password
+    $mail->Host       = 'sensitive info here';                     //Set the SMTP server to send through
+    $mail->Username   = 'sensitive info here';                     //SMTP username
+    $mail->Password   = 'sensitive info here';                               //SMTP password
 
-    $mail->SMTPSecure = "ssl";            //Enable implicit TLS encryption
-    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    $mail->SMTPSecure = "sensitive info here";            //Enable implicit TLS encryption
+    $mail->Port       = sensitive info here;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('noreply@webook.ro', $name);
+    $mail->setFrom('sensitive info here', $name);
     $mail->addAddress($email);     //Add a recipient
     
 
